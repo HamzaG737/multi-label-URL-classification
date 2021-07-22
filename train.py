@@ -25,7 +25,11 @@ def split_data(df_data, config, test_frac=0.2):
 
 def get_training_data(config):
     if os.path.isfile(config.path_train_data):
-        return pd.read_csv(config.path_train_data)
+        load_instance = LoadData.load(config.preprocessing_class_path)
+        config.n_classes = load_instance.config.n_classes
+        df = pd.read_csv(config.path_train_data)
+        df["labels"] = df["labels"].apply(eval)
+        return df
     else:
         preprocessing_instance = LoadData(config)
         ## load data
@@ -51,7 +55,7 @@ if __name__ == "__main__":
     # load fasttext and train it
     fast_text = FastText(config, df_train)
     fast_text.train()
-    X_train = fast_text.get_embeddings(df_train)
+    X_train = fast_text.get_embeddings()
     y_train = get_one_hot_labels(df_train, config)
 
     classifier = get_classifier(config)

@@ -46,11 +46,12 @@ if __name__ == "__main__":
     config = parser.parse_args()
     df_test = load_test_data(config)
     fast_text = FastText(config, df_test)
-    X_test = fast_text.get_embeddings(df_test)
+    X_test = fast_text.get_embeddings()
     y_test = get_one_hot_labels(df_test, config)
 
     # load classifer
     classifier = pickle.load(open(config.model_path, "rb"))
+    print('generating predictions ...')
     predictions = classifier.predict(X_test)
     print("Exact accuracy is {}".format(accuracy_score(y_test, predictions)))
     print("IoU metric score is {}".format(get_IoU_score(y_test, predictions)))
