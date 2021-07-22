@@ -11,7 +11,7 @@ Given a text file that contains a list of URLs , you can infer the categories us
 ```shell
 $ python infer_categories.py --path_to_input path/to/text_file
 ```
-You will need two binary models for the inference , a fasttext model and the classifier one ( MLARAM , see methods for more details). You can download them via this link. After download , you need to store them in a models directory that shares the same workspace as infer_categories.py . If you want to avoid these steps , you can train from scratch ( see next subsection) and then run the inference module. 
+You will need two binary models for the inference , a fasttext model and the classifier one ( MLARAM , see methods for more details). You can download them via this [link](https://drive.google.com/drive/folders/1ZZnT8zSFFbkF2nhyfXGkeX5-JrGzy8-M?usp=sharing) . After download , you need to store them in a models directory that shares the same workspace as infer_categories.py . If you want to avoid these steps , you can train from scratch ( see next subsection) and then run the inference module. 
 
 The results will be stored in a csv file in the **data/results.csv** path. You can change this path with the *--path_results* argument ( you can see the list of the full arguments in the *config.py* module). 
 
@@ -38,7 +38,7 @@ In this step we mainly extract relevant informations from the URLs. This include
 We use fasttext library to generate word embeddings by the skipgram model. The embedding of an URL is a weighted mean of its word embeddings , where the weights are decreased through the sentence to give more importance to the first words. 
 We also benchmark another method that uses contrastive learning to construct URL embeddings. The idea is to train a neural network that minimizes a certain distance between URLs that share at least one label , and increases the distance between URLs that have different labels. Refer to the notebook *contrastive_embeddings.ipynb* for more details. 
 ### Embeddings generation
-Given the embeddings obtained after the previous step , we train a multi-label classifier. We tried two models : Multilabel k Nearest Neighbours ( see  [ref](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/pr07.pdf) ) and Multi-label ARAM (see [ref](https://www.researchgate.net/publication/294088777_HARAM_a_hierarchical_ARAM_neural_network_for_large-scale_text_classification)). The choice of these classifiers is mainly due to the relative low execution time for training and inference of these methods compared to the other multi-label classifiers such as MLSVM.
+Given the embeddings obtained after the previous step , we train a multi-label classifier. We tried two models : Multilabel k Nearest Neighbours ( see  [ref](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/pr07.pdf) ) and Multi-label ARAM (see [ref](https://www.researchgate.net/publication/294088777_HARAM_a_hierarchical_ARAM_neural_network_for_large-scale_text_classification)). The choice of these classifiers is mainly due to the relative low execution time for training and inference of these methods compared to the other multi-label classifiers such as MLSVM. By default , we train the Multi-label ARAM model.
 ### Rule-based models
 We also implemented a rule based model that predicts the labels based on their frequency in the training set. Concretely , if in a given URL there are multiple words that are associated with a certain label (they co-occcur frequently) , This label have higher probability to be predicted. Refer to RuleBased in models.py for more informations. 
 
@@ -52,4 +52,4 @@ We benchmark the presented models using the IoU metric.
 | Rule-based | 0.335      |
 | contrastive learning | 0.267      |
 
-Overall the results are average but this is mainly to the high number of labels in the dataset (1903 categories) and that URLs by themselves are not very informative. Hence a possible improvement is to merge certain categories that share the same theme and also  extract some header informations from the URLs such as the description to increase its informative capacity. 
+Overall the results are average but this is mainly to the high number of labels in the dataset (1903 categories) and the fact that the URLs by themselves are not very informative. Hence a possible improvement is to merge certain categories that share the same theme and also  extract some header informations from the URLs such as the description to increase its informative capacity. 
