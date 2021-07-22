@@ -11,6 +11,8 @@ Given a text file that contains a list of URLs , you can infer the categories us
 ```shell
 $ python infer_categories.py --path_to_input path/to/text_file
 ```
+You will need two binary models for the inference , a fasttext model and the classifier one ( MLARAM , see methods for more details). You can download them via this link. After download , you need to store them in a models directory that shares the same workspace as infer_categories.py . If you want to avoid these steps , you can train from scratch ( see next subsection) and then run the inference module. 
+
 The results will be stored in a csv file in the **data/results.csv** path. You can change this path with the *--path_results* argument ( you can see the list of the full arguments in the *config.py* module). 
 
 ### Training
