@@ -7,7 +7,7 @@ First install the necessary packages using the following command :
 $ pip install -r requirements.txt
 ```
 ### Infering categories
-Given a text file that contains a list of URLs , you can infer the categories using the following command : 
+Given a text file where each line corresponds to an url , you can infer the categories using the following command : 
 ```shell
 $ python infer_categories.py --path_to_input path/to/text_file
 ```
