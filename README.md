@@ -37,7 +37,7 @@ In this step we mainly extract relevant informations from the URLs. This include
 ### Embeddings generation
 We use fasttext library to generate word embeddings by the skipgram model. The embedding of an URL is a weighted mean of its word embeddings , where the weights are decreased through the sentence to give more importance to the first words. 
 We also benchmark another method that uses contrastive learning to construct URL embeddings. The idea is to train a neural network that minimizes a certain distance between URLs that share at least one label , and increases the distance between URLs that have different labels. Refer to the notebook *contrastive_embeddings.ipynb* for more details. 
-### Embeddings generation
+### Classification
 Given the embeddings obtained after the previous step , we train a multi-label classifier. We tried two models : Multilabel k Nearest Neighbours ( see  [ref](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/pr07.pdf) ) and Multi-label ARAM (see [ref](https://www.researchgate.net/publication/294088777_HARAM_a_hierarchical_ARAM_neural_network_for_large-scale_text_classification)). The choice of these classifiers is mainly due to the relative low execution time for training and inference of these methods compared to the other multi-label classifiers such as MLSVM. By default , we train the Multi-label ARAM model.
 ### Rule-based models
 We also implemented a rule based model that predicts the labels based on their frequency in the training set. Concretely , if in a given URL there are multiple words that are associated with a certain label (they co-occcur frequently) , This label have higher probability to be predicted. Refer to RuleBased in models.py for more informations. 
